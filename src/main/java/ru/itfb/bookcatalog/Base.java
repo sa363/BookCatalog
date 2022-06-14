@@ -1,5 +1,7 @@
 package ru.itfb.bookcatalog;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +17,7 @@ public class Base {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnoreProperties
     private Long id;
 
     public Long getId() {
