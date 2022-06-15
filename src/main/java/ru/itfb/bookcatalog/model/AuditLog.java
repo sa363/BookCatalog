@@ -18,33 +18,30 @@
  *
  */
 
-package ru.itfb.bookcatalog;
+package ru.itfb.bookcatalog.model;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
 @Setter
-@MappedSuperclass
-public class Base {
-    @Id
-    @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnoreProperties
-    private Long id;
+@Entity
+@Table(name = "audit_log")
+public class AuditLog extends Base {
+    @Column(name = "method")
+    private String method;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "object")
+    private String object;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Column(name = "invoke_date_time")
+    @CreationTimestamp
+    private LocalDateTime invokeDateTime;
 
 }

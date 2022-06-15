@@ -20,12 +20,10 @@
 
 package ru.itfb.bookcatalog.service.impl;
 
-import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.itfb.bookcatalog.Author;
-import ru.itfb.bookcatalog.Book;
+import ru.itfb.bookcatalog.model.Author;
+import ru.itfb.bookcatalog.model.Book;
 import ru.itfb.bookcatalog.exception.AuthorNotFoundException;
 import ru.itfb.bookcatalog.exception.BookNotFoundException;
 import ru.itfb.bookcatalog.interfaces.AuthorRepository;

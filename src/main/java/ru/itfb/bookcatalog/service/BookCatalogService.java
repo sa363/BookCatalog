@@ -20,8 +20,8 @@
 
 package ru.itfb.bookcatalog.service;
 
-import ru.itfb.bookcatalog.Author;
-import ru.itfb.bookcatalog.Book;
+import ru.itfb.bookcatalog.model.Author;
+import ru.itfb.bookcatalog.model.Book;
 
 public interface BookCatalogService {
 

@@ -21,7 +21,7 @@
 package ru.itfb.bookcatalog.interfaces;
 
 import org.springframework.data.repository.CrudRepository;
-import ru.itfb.bookcatalog.Author;
+import ru.itfb.bookcatalog.model.Author;
 
 public interface AuthorRepository extends CrudRepository<Author, Long> {
 }

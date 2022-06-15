@@ -18,11 +18,14 @@
  *
  */
 
-package ru.itfb.bookcatalog.interfaces;
+-- liquibase formatted sql
 
-import org.springframework.data.repository.CrudRepository;
-import ru.itfb.bookcatalog.model.Book;
+-- changeset Sergey:1655329393232-1
+CREATE TABLE audit_log
+(
+    id     BIGINT NOT NULL,
+    method VARCHAR(255),
+    object VARCHAR(255),
+    CONSTRAINT pk_audit_log PRIMARY KEY (id)
+);
 
-public interface BookRepository extends CrudRepository<Book, Long> {
-
-}

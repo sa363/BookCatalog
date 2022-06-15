@@ -18,11 +18,9 @@
  *
  */
 
-package ru.itfb.bookcatalog.interfaces;
+-- liquibase formatted sql
 
-import org.springframework.data.repository.CrudRepository;
-import ru.itfb.bookcatalog.model.Book;
+-- changeset Sergey:1655330553488-1
+ALTER TABLE audit_log
+    ADD invoke_date_time TIMESTAMP WITHOUT TIME ZONE;
 
-public interface BookRepository extends CrudRepository<Book, Long> {
-
-}

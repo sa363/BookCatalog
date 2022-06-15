@@ -21,8 +21,7 @@
 package ru.itfb.bookcatalog.interfaces;
 
 import org.springframework.data.repository.CrudRepository;
-import ru.itfb.bookcatalog.model.Book;
+import ru.itfb.bookcatalog.model.AuditLog;
 
-public interface BookRepository extends CrudRepository<Book, Long> {
-
+public interface AuditLogRepository extends CrudRepository<AuditLog, Long> {
 }

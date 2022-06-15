@@ -20,13 +20,12 @@
 
 package ru.itfb.bookcatalog.controller;
 
-import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.itfb.bookcatalog.Author;
-import ru.itfb.bookcatalog.Book;
+import ru.itfb.bookcatalog.model.Author;
+import ru.itfb.bookcatalog.model.Book;
 import ru.itfb.bookcatalog.service.impl.BookCatalogServiceImpl;
 
 @RestController
