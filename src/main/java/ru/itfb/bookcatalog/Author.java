@@ -1,31 +1,48 @@
 package ru.itfb.bookcatalog;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.Hibernate;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import java.util.Objects;
+import java.util.Set;
 
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "author")
-@EqualsAndHashCode(exclude = "books")
 public class Author extends Base {
     @Column(name = "full_name", unique = true)
     private String fullName;
 
     @ManyToMany(mappedBy = "authors")
     @JsonIgnoreProperties("authors")
-    private List<Book> books = new ArrayList<>();
+    private Set<Book> books = new java.util.LinkedHashSet<>();
 
-    public List<Book> getBooks() {
+    public Set<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(Set<Book> books) {
         this.books = books;
+    }
+
+    public boolean addBook(Book book) {
+        return this.getBooks().add(book);
+    }
+
+    public boolean removeBook(Book book) {
+       return this.getBooks().remove(book);
     }
 
     @Override
@@ -34,5 +51,18 @@ public class Author extends Base {
                 "fullName='" + fullName + '\'' +
                 ", books=" + books +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Author author = (Author) o;
+        return getId() != null && Objects.equals(getId(), author.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
