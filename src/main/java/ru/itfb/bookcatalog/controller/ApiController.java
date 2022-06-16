@@ -20,6 +20,7 @@
 
 package ru.itfb.bookcatalog.controller;
 
+import io.micrometer.core.annotation.Counted;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,17 +36,18 @@ public class ApiController {
 
     private final BookCatalogServiceImpl service;
 
-
     public ApiController(BookCatalogServiceImpl service) {
         this.service = service;
     }
 
     @PostMapping("/book")
+    @Counted(value = "addbook")
     Book NewBook(@RequestBody Book book) {
         return service.addBook(book);
     }
 
     @GetMapping("/book/{id}")
+    @Counted(value = "getbook")
     Book GetBookById(@PathVariable Long id) {
         log.info("Get book by id {}", id);
         return service.getBookById(id);
@@ -53,11 +55,13 @@ public class ApiController {
     }
 
     @PutMapping("/book/{id}")
+    @Counted(value = "updatebook")
     Book updateBookById(@PathVariable long id, @RequestBody Book book) {
         return service.updateBookById(book, id);
     }
 
     @DeleteMapping("/book/{id}")
+    @Counted(value = "deletebook")
     ResponseEntity<?> removeBookById(@PathVariable long id) {
         return service.removeBookById(id)
                 ? new ResponseEntity<>(HttpStatus.OK)
@@ -65,23 +69,26 @@ public class ApiController {
 
     }
 
-
     @GetMapping("/author")
+    @Counted(value = "getauthors")
     Iterable<Author> allAuthors() {
         return service.getAllAuthors();
     }
 
     @GetMapping("/author/{id}")
+    @Counted(value = "getauthor")
     Author GetAuthorById(@PathVariable Long id) {
         return service.getAuthorById(id);
     }
 
     @PostMapping("/author")
+    @Counted(value = "addauthor")
     Author NewAuthor(@RequestBody Author author) {
         return service.addAuthor(author);
     }
 
     @DeleteMapping("/author/{id}")
+    @Counted(value = "geleteauthor")
     ResponseEntity<?> DeleteAuthor(@PathVariable Long id) {
         return service.deleteAuthor(id)
                 ? new ResponseEntity<>(HttpStatus.OK)
