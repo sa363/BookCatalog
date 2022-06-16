@@ -18,24 +18,9 @@
  *
  */
 
-package ru.itfb.bookcatalog.service;
+-- liquibase formatted sql
 
-import ru.itfb.bookcatalog.model.Author;
-import ru.itfb.bookcatalog.model.Book;
+-- changeset Sergey:1655407413571-1
+ALTER TABLE audit_log
+    DROP COLUMN object;
 
-public interface BookCatalogService {
-
-    Book addBook(Book book);
-
-    Book getBookById(long id) throws InterruptedException;
-
-    Book updateBookById(Book newBook, Long id);
-    boolean removeBookById(Long id);
-
-    Author addAuthor(Author author);
-    boolean deleteAuthor(Long id);
-
-    Iterable<Author> getAllAuthors();
-
-    Author getAuthorById(Long id);
-}

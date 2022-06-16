@@ -48,7 +48,6 @@ public class ApiController {
     @GetMapping("/book/{id}")
     Book GetBookById(@PathVariable Long id) {
         log.info("Get book by id {}", id);
-
         return service.getBookById(id);
 
     }

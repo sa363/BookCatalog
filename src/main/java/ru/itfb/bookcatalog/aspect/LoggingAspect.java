@@ -22,16 +22,17 @@ package ru.itfb.bookcatalog.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import ru.itfb.bookcatalog.interfaces.AuditLogRepository;
 import ru.itfb.bookcatalog.model.AuditLog;
+import ru.itfb.bookcatalog.type.MethodType;
 
-import java.lang.annotation.Annotation;
+import javax.transaction.Transactional;
 import java.util.Arrays;
 
 @Aspect
@@ -39,35 +40,54 @@ import java.util.Arrays;
 @Slf4j
 public class LoggingAspect {
 
-    private AuditLogRepository auditLogRepository;
+    private final AuditLogRepository auditLogRepository;
 
     public LoggingAspect(AuditLogRepository auditLogRepository) {
         this.auditLogRepository = auditLogRepository;
     }
 
     @Before("execution(* ru.itfb.bookcatalog.controller..*(..))")
-    public void profileAllMethods(JoinPoint joinPoin) throws Throwable {
-        MethodSignature methodSignature = (MethodSignature) joinPoin.getSignature();
-        Object[] args = joinPoin.getArgs();
-        String[] parametersName = methodSignature.getParameterNames();
+    @Transactional
+    public void profileAllMethodsBefore(JoinPoint joinPoint) {
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
 
-        StringBuilder stringBuilder = new StringBuilder();
+        /*
+        Arrays.stream(methodSignature.getParameterNames())
+                .forEach(s -> log.debug("arg name: " + s));
 
-        for (int i=0; i< args.length; i++) {
-            stringBuilder.append(parametersName[i]);
-            stringBuilder.append(":");
-            stringBuilder.append(args[i].toString());
-        }
+        Arrays.stream(methodSignature.getParameterTypes())
+                .forEach(s -> log.debug("arg type: " + s));
 
+        Arrays.stream(joinPoint.getArgs())
+                .forEach(o -> log.debug("arg value: " + o.toString()));
+        */
+        AuditLog auditLog = new AuditLog();
+        auditLog.setMethod(methodSignature.getName());
+        auditLog.setMethodType(MethodType.START);
+        auditLogRepository.save(auditLog);
+    }
 
+    @AfterReturning("execution(* ru.itfb.bookcatalog.controller..*(..))")
+    @Transactional
+    public void profileAllMethodsAfterReturning(JoinPoint joinPoint) {
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        AuditLog auditLog = new AuditLog();
+        auditLog.setMethod(methodSignature.getName());
+        auditLog.setMethodType(MethodType.END);
+        auditLogRepository.save(auditLog);
+    }
+
+    @AfterThrowing("execution(* ru.itfb.bookcatalog.controller..*(..))")
+    @Transactional
+    public void profileAllMethodsAfterThrowing(JoinPoint joinPoint) {
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+
+        Arrays.stream(methodSignature.getExceptionTypes())
+                .forEach(aClass -> log.info("exception type: " + aClass));
 
         AuditLog auditLog = new AuditLog();
         auditLog.setMethod(methodSignature.getName());
-        auditLog.setObject(stringBuilder.toString());
+        auditLog.setMethodType(MethodType.ERROR);
         auditLogRepository.save(auditLog);
-
-        log.info(methodSignature.getName());
-        log.info(joinPoin.getArgs()[0].toString());
-
     }
 }

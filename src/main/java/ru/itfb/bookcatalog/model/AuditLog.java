@@ -24,6 +24,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import ru.itfb.bookcatalog.type.MethodType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -37,11 +38,12 @@ public class AuditLog extends Base {
     @Column(name = "method")
     private String method;
 
-    @Column(name = "object")
-    private String object;
-
     @Column(name = "invoke_date_time")
     @CreationTimestamp
     private LocalDateTime invokeDateTime;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "method_type")
+    private MethodType methodType;
 
 }

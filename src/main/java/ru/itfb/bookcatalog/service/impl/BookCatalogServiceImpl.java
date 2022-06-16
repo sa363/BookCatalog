@@ -22,12 +22,13 @@ package ru.itfb.bookcatalog.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.itfb.bookcatalog.model.Author;
-import ru.itfb.bookcatalog.model.Book;
+import org.springframework.transaction.annotation.Transactional;
 import ru.itfb.bookcatalog.exception.AuthorNotFoundException;
 import ru.itfb.bookcatalog.exception.BookNotFoundException;
 import ru.itfb.bookcatalog.interfaces.AuthorRepository;
 import ru.itfb.bookcatalog.interfaces.BookRepository;
+import ru.itfb.bookcatalog.model.Author;
+import ru.itfb.bookcatalog.model.Book;
 import ru.itfb.bookcatalog.service.BookCatalogService;
 
 @Service
@@ -43,6 +44,7 @@ public class BookCatalogServiceImpl implements BookCatalogService {
     }
 
     @Override
+    @Transactional
     public Book addBook(Book book) {
         return bookRepository.save(book);
     }
@@ -54,6 +56,7 @@ public class BookCatalogServiceImpl implements BookCatalogService {
     }
 
     @Override
+    @Transactional
     public Book updateBookById(Book newBook, Long id) {
         Book book = bookRepository.findById(id).orElseThrow(() ->
                 new BookNotFoundException(String.format("No book with id %s is available", id)));
@@ -76,6 +79,7 @@ public class BookCatalogServiceImpl implements BookCatalogService {
     }
 
     @Override
+    @Transactional
     public boolean removeBookById(Long id) {
 
         bookRepository.delete(
@@ -85,11 +89,13 @@ public class BookCatalogServiceImpl implements BookCatalogService {
     }
 
     @Override
+    @Transactional
     public Author addAuthor(Author author) {
         return authorRepository.save(author);
     }
 
     @Override
+    @Transactional
     public boolean deleteAuthor(Long id) {
         authorRepository.delete(
                 authorRepository.findById(id).orElseThrow(() ->

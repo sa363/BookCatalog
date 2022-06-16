@@ -18,24 +18,10 @@
  *
  */
 
-package ru.itfb.bookcatalog.service;
+package ru.itfb.bookcatalog.type;
 
-import ru.itfb.bookcatalog.model.Author;
-import ru.itfb.bookcatalog.model.Book;
-
-public interface BookCatalogService {
-
-    Book addBook(Book book);
-
-    Book getBookById(long id) throws InterruptedException;
-
-    Book updateBookById(Book newBook, Long id);
-    boolean removeBookById(Long id);
-
-    Author addAuthor(Author author);
-    boolean deleteAuthor(Long id);
-
-    Iterable<Author> getAllAuthors();
-
-    Author getAuthorById(Long id);
+public enum MethodType {
+    START,
+    END,
+    ERROR
 }
