@@ -35,6 +35,7 @@
     <description>BookCatalog</description>
     <properties>
         <java.version>11</java.version>
+        <maven.test.skip>true</maven.test.skip>
     </properties>
     <dependencies>
         <dependency>
@@ -112,16 +113,6 @@
                     </excludes>
                 </configuration>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.liquibase</groupId>-->
-<!--                <artifactId>liquibase-maven-plugin</artifactId>-->
-<!--                <version>4.2.0</version>-->
-<!--                <configuration>-->
-<!--                    &lt;!&ndash;set values for Liquibase properties and settings-->
-<!--                    for example, the location of a properties file to use&ndash;&gt;-->
-<!--                    <propertyFile>liquibase.properties</propertyFile>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
         </plugins>
     </build>
 

@@ -8,4 +8,10 @@ services:
     environment:
       POSTGRES_DB: BookCatalog
       POSTGRES_USER: pguser
-      POSTGRES_PASSWORD:  pgpassword
+      POSTGRES_PASSWORD: pgpassword
+
+  bookcatalog:
+    build: ./
+    image: bookcatalog:0.1
+    ports:
+      - "8080:8080"
